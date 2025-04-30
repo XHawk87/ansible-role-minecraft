@@ -1,0 +1,48 @@
+# SPDX-FileCopyrightText: 2023 - 2025 Slavi Pantaleev
+# SPDX-FileCopyrightText: 2025 XHawk87
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+---
+
+- name: Ensure Minecraft paths exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0750"
+    owner: "{{ minecraft_uid }}"
+    group: "{{ minecraft_gid }}"
+  with_items:
+    - "{{ minecraft_base_path }}"
+    - "{{ minecraft_data_path }}"
+
+- name: Ensure Minecraft support files installed
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/{{ item }}.j2"
+    dest: "{{ minecraft_base_path }}/{{ item }}"
+    mode: "0640"
+    owner: "{{ minecraft_uid }}"
+    group: "{{ minecraft_gid }}"
+  with_items:
+    - env
+    - labels
+
+- name: Ensure Minecraft container image is pulled
+  community.docker.docker_image:
+    name: "{{ minecraft_container_image }}"
+    source: "{{ 'pull' if ansible_version.major > 2 or ansible_version.minor > 7 else omit }}"
+    force_source: "{{ minecraft_container_image_force_pull if ansible_version.major > 2 or ansible_version.minor >= 8 else omit }}"
+    force: "{{ omit if ansible_version.major > 2 or ansible_version.minor >= 8 else minecraft_container_image_force_pull }}"
+
+- name: Ensure Minecraft container network is created
+  community.general.docker_network:
+    enable_ipv6: "{{ devture_systemd_docker_base_ipv6_enabled }}"
+    name: "{{ minecraft_container_network }}"
+    driver: bridge
+    driver_options: "{{ devture_systemd_docker_base_container_networks_driver_options }}"
+
+- name: Ensure Minecraft systemd service is present
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/systemd/minecraft.service.j2"
+    dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ minecraft_identifier }}.service"
+    mode: "0644"

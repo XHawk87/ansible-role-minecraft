@@ -1,0 +1,145 @@
+# SPDX-FileCopyrightText: 2023 - 2024 Nikita Chernyi
+# SPDX-FileCopyrightText: 2023 - 2025 Slavi Pantaleev
+# SPDX-FileCopyrightText: 2025 XHawk87
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+---
+
+# Project source code URL: https://github.com/itzg/docker-minecraft-server
+
+minecraft_enabled: true
+
+minecraft_identifier: minecraft
+
+minecraft_port: 25565
+
+minecraft_uid: '1000'
+minecraft_gid: '1000'
+
+# renovate: datasource=docker depName=itzg/docker-minecraft-server versioning=semver
+minecraft_docker_version: 2025.4.2
+
+minecraft_base_path: "/var/minecraft/{{ minecraft_identifier }}"
+minecraft_data_path: "{{ minecraft_base_path }}/data"
+
+minecraft_container_image: "{{ minecraft_container_image_registry_prefix
+    }}itzg/minecraft-server:{{
+    minecraft_container_image_tag }}"
+minecraft_container_image_registry_prefix: "{{ minecraft_container_image_registry_prefix_upstream }}"
+minecraft_container_image_registry_prefix_upstream: "{{ minecraft_container_image_registry_prefix_upstream_default }}"
+minecraft_container_image_registry_prefix_upstream_default: docker.io/
+minecraft_container_image_tag: "{{ minecraft_docker_version }}"
+minecraft_container_image_force_pull: "{{ minecraft_container_image.endswith(':latest') }}"
+
+# The base container network. It will be auto-created by this role if it doesn't exist already.
+minecraft_container_network: "{{ minecraft_identifier }}"
+
+# A list of additional container networks that the container would be connected to.
+# The role does not create these networks, so make sure they already exist.
+# Use this to expose this container to another reverse proxy, which runs in a different container network.
+minecraft_container_additional_networks: "{{
+    minecraft_container_additional_networks_auto +
+    minecraft_container_additional_networks_custom
+}}"
+minecraft_container_additional_networks_auto: []
+minecraft_container_additional_networks_custom: []
+
+minecraft_container_dns_servers: "{{
+    minecraft_container_dns_servers_default +
+    minecraft_container_dns_servers_custom
+}}"
+
+minecraft_container_dns_servers_default:
+  # Cloudflare DNS
+  - '1.1.1.1'
+  - '1.0.0.1'
+
+  # Google DNS
+  - '8.8.8.8'
+  - '8.8.4.4'
+
+  # dns.quad9.net
+  - '9.9.9.9'
+  - '149.112.112.112'
+
+minecraft_container_dns_servers_custom: []
+
+# A list of ports to publish directly from this container. It may be necessary to set up firewall rules and port
+# forwarding on your hosting provider also.
+minecraft_container_publish_ports_additional: []
+
+# The default minecraft port
+minecraft_container_publish_ports_default:
+  - "{{ minecraft_port }}:25565"
+
+# If any plugins or other services need ports, you can add them here.
+minecraft_container_publish_ports: "{{
+    minecraft_container_publish_ports_default +
+    minecraft_container_publish_ports_additional
+}}"
+
+# TODO: Add labels for mc-router auto-discovery
+
+# minecraft_container_labels_additional_labels contains a multiline string with additional labels to add to the
+# container label file. See `../templates/labels.j2` for details.
+#
+# Example:
+# minecraft_container_labels_additional_labels: |
+#   my.label=1
+#   another.label="here"
+minecraft_container_labels_additional_labels: ''
+
+# Additional container volumes
+#
+# Example: Enable access to use screen for the user 'ubuntu'
+# minecraft_container_volumes:
+#   - /run/screen/S-ubuntu:/run/screen/S-{{ minecraft_identifier }}
+minecraft_container_volumes_additional: []
+
+minecraft_container_volumes_derived:
+  - "{{ minecraft_data_path }}:/data"
+
+minecraft_container_volumes: "{{
+    minecraft_container_volumes_derived +
+    minecraft_container_volumes_additional
+}}"
+
+# Specifies how often the container health-check will run.
+#
+# We use the default healthcheck interval (60s) to decrease overhead.
+minecraft_container_health_interval: "60s"
+
+# A list of extra arguments to pass to the container
+minecraft_container_extra_arguments: []
+
+# This is how most of the server properties and other settings get set.
+#
+# See: https://docker-minecraft-server.readthedocs.io/en/latest/variables/
+minecraft_environment_variables_additional: ''
+
+minecraft_environment_variables_default: |
+  EULA=TRUE
+
+minecraft_environment_variables_derived: |
+  UID={{ minecraft_uid }}
+  GID={{ minecraft_gid }}
+
+minecraft_environment_variables: |
+  {{ minecraft_environment_variables_default }}
+  {{ minecraft_environment_variables_derived }}
+  {{ minecraft_environment_variables_additional }}
+
+# List of systemd services that minecraft.service depends on
+minecraft_systemd_required_services_list: "{{
+    minecraft_systemd_required_services_list_default +
+    minecraft_systemd_required_services_list_auto +
+    minecraft_systemd_required_services_list_custom
+}}"
+# TODO: Add support for mc-router
+minecraft_systemd_required_services_list_default: "{{
+    [devture_systemd_docker_base_docker_service_name] if
+        devture_systemd_docker_base_docker_service_name else []
+}}"
+minecraft_systemd_required_services_list_auto: []
+minecraft_systemd_required_services_list_custom: []

@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: 2023 Slavi Pantaleev
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+---
+
+- name: Check existence of Minecraft systemd service
+  ansible.builtin.stat:
+    path: "{{ devture_systemd_docker_base_systemd_path }}/{{ minecraft_identifier }}.service"
+  register: minecraft_service_stat
+
+- name: Stop and uninstall Minecraft systemd service
+  when: minecraft_service_stat.stat.exists | bool
+  block:
+    - name: Ensure Minecraft systemd service is stopped
+      ansible.builtin.service:
+        name: "{{ minecraft_identifier }}"
+        state: stopped
+        enabled: false
+        daemon_reload: true
+
+    - name: Ensure Minecraft systemd service does not exist
+      ansible.builtin.file:
+        path: "{{ devture_systemd_docker_base_systemd_path }}/{{ minecraft_identifier }}.service"
+        state: absent

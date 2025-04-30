@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2023 Slavi Pantaleev
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+---
+
+# TODO: check which settings are required
+
+- name: Fail if required Minecraft settings not defined
+  ansible.builtin.fail:
+    msg: >
+      You need to define a required configuration setting (`{{ item }}`).
+  when: "vars[item] == ''"
+  with_items:
+    - minecraft_identifier
+    - minecraft_uid
+    - minecraft_gid
+    - minecraft_container_network

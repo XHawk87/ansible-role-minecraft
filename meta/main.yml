@@ -1,0 +1,7 @@
+galaxy_info:
+  author: XHawk87
+  role_name: minecraft
+  namespace: xhawk87
+  description: minecraft
+  license: AGPL-3.0-or-later
+  min_ansible_version: '2.1'
