@@ -26,18 +26,23 @@ minecraft_data_path: "{{ minecraft_base_path }}/data"
 minecraft_container_image: "{{ minecraft_container_image_registry_prefix
     }}itzg/minecraft-server:{{
     minecraft_container_image_tag }}"
-minecraft_container_image_registry_prefix: "{{ minecraft_container_image_registry_prefix_upstream }}"
-minecraft_container_image_registry_prefix_upstream: "{{ minecraft_container_image_registry_prefix_upstream_default }}"
+minecraft_container_image_registry_prefix: "{{
+    minecraft_container_image_registry_prefix_upstream }}"
+minecraft_container_image_registry_prefix_upstream: "{{
+    minecraft_container_image_registry_prefix_upstream_default }}"
 minecraft_container_image_registry_prefix_upstream_default: docker.io/
 minecraft_container_image_tag: "{{ minecraft_docker_version }}"
-minecraft_container_image_force_pull: "{{ minecraft_container_image.endswith(':latest') }}"
+minecraft_container_image_force_pull: "{{
+    minecraft_container_image.endswith(':latest') }}"
 
-# The base container network. It will be auto-created by this role if it doesn't exist already.
+# The base container network. It will be auto-created by this role if it
+# doesn't exist already.
 minecraft_container_network: "{{ minecraft_identifier }}"
 
-# A list of additional container networks that the container would be connected to.
-# The role does not create these networks, so make sure they already exist.
-# Use this to expose this container to another reverse proxy, which runs in a different container network.
+# A list of additional container networks that the container would be connected
+# to. The role does not create these networks, so make sure they already exist.
+# Use this to expose this container to another reverse proxy, which runs in a
+# different container network.
 minecraft_container_additional_networks: "{{
     minecraft_container_additional_networks_auto +
     minecraft_container_additional_networks_custom
@@ -65,8 +70,8 @@ minecraft_container_dns_servers_default:
 
 minecraft_container_dns_servers_custom: []
 
-# A list of ports to publish directly from this container. It may be necessary to set up firewall rules and port
-# forwarding on your hosting provider also.
+# A list of ports to publish directly from this container. It may be necessary
+# to set up firewall rules and port forwarding on your hosting provider also.
 minecraft_container_publish_ports_additional: []
 
 # The default minecraft port
@@ -81,8 +86,9 @@ minecraft_container_publish_ports: "{{
 
 # TODO: Add labels for mc-router auto-discovery
 
-# minecraft_container_labels_additional_labels contains a multiline string with additional labels to add to the
-# container label file. See `../templates/labels.j2` for details.
+# minecraft_container_labels_additional_labels contains a multiline string with
+# additional labels to add to the container label file. See
+# `../templates/labels.j2` for details.
 #
 # Example:
 # minecraft_container_labels_additional_labels: |

@@ -10,9 +10,16 @@ DefaultDependencies=no
 [Service]
 Type=simple
 Environment="HOME={{ devture_systemd_docker_base_systemd_unit_home_path }}"
-ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} stop --time={{ devture_systemd_docker_base_container_stop_grace_time_seconds }} {{ minecraft_identifier }} 2>/dev/null || true'
-ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm {{ minecraft_identifier }} 2>/dev/null || true'
-ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} pull itzg/minecraft-server:latest
+ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh
+    }} -c '{{ devture_systemd_docker_base_host_command_docker
+    }} stop --time={{
+    devture_systemd_docker_base_container_stop_grace_time_seconds }} {{
+    minecraft_identifier }} 2>/dev/null || true'
+ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{
+    devture_systemd_docker_base_host_command_docker }} rm {{
+    minecraft_identifier }} 2>/dev/null || true'
+ExecStartPre={{ devture_systemd_docker_base_host_command_docker 
+    }} pull itzg/minecraft-server:latest
 ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} run \
     --detach \
     --rm \
@@ -37,11 +44,18 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} run \
     {% endfor %}
     {{ minecraft_container_image }}
 {% for network in minecraft_container_additional_networks %}
-ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} network connect {{ network }} {{ minecraft_identifier }}
+ExecStartPre={{ devture_systemd_docker_base_host_command_docker
+    }} network connect {{ network }} {{ minecraft_identifier }}
 {% endfor %}
-ExecStart={{ devture_systemd_docker_base_host_command_docker }} logs --follow {{ minecraft_identifier }}
-ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} stop --time={{ devture_systemd_docker_base_container_stop_grace_time_seconds }} {{ minecraft_identifier }} 2>/dev/null || true'
-ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm {{ minecraft_identifier }} 2>/dev/null || true'
+ExecStart={{ devture_systemd_docker_base_host_command_docker
+    }} logs --follow {{ minecraft_identifier }}
+ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{
+    devture_systemd_docker_base_host_command_docker }} stop --time={{
+    devture_systemd_docker_base_container_stop_grace_time_seconds }} {{
+    minecraft_identifier }} 2>/dev/null || true'
+ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{
+    devture_systemd_docker_base_host_command_docker }} rm {{
+    minecraft_identifier }} 2>/dev/null || true'
 
 Restart=on-failure
 RestartSec=10s

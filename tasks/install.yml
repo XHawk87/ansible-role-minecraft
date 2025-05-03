@@ -30,19 +30,24 @@
 - name: Ensure Minecraft container image is pulled
   community.docker.docker_image:
     name: "{{ minecraft_container_image }}"
-    source: "{{ 'pull' if ansible_version.major > 2 or ansible_version.minor > 7 else omit }}"
-    force_source: "{{ minecraft_container_image_force_pull if ansible_version.major > 2 or ansible_version.minor >= 8 else omit }}"
-    force: "{{ omit if ansible_version.major > 2 or ansible_version.minor >= 8 else minecraft_container_image_force_pull }}"
+    source: "{{ 'pull'
+        if ansible_version.major > 2 or ansible_version.minor > 7 else omit }}"
+    force_source: "{{ minecraft_container_image_force_pull
+        if ansible_version.major > 2 or ansible_version.minor >= 8 else omit }}"
+    force: "{{ omit if ansible_version.major > 2 or ansible_version.minor >= 8
+        else minecraft_container_image_force_pull }}"
 
 - name: Ensure Minecraft container network is created
   community.general.docker_network:
     enable_ipv6: "{{ devture_systemd_docker_base_ipv6_enabled }}"
     name: "{{ minecraft_container_network }}"
     driver: bridge
-    driver_options: "{{ devture_systemd_docker_base_container_networks_driver_options }}"
+    driver_options: "{{
+        devture_systemd_docker_base_container_networks_driver_options }}"
 
 - name: Ensure Minecraft systemd service is present
   ansible.builtin.template:
     src: "{{ role_path }}/templates/systemd/minecraft.service.j2"
-    dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ minecraft_identifier }}.service"
+    dest: "{{ devture_systemd_docker_base_systemd_path }}/{{
+        minecraft_identifier }}.service"
     mode: "0644"

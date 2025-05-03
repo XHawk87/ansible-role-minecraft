@@ -6,7 +6,8 @@
 
 - name: Check existence of Minecraft systemd service
   ansible.builtin.stat:
-    path: "{{ devture_systemd_docker_base_systemd_path }}/{{ minecraft_identifier }}.service"
+    path: "{{ devture_systemd_docker_base_systemd_path }}/{{
+        minecraft_identifier }}.service"
   register: minecraft_service_stat
 
 - name: Stop and uninstall Minecraft systemd service
@@ -21,5 +22,6 @@
 
     - name: Ensure Minecraft systemd service does not exist
       ansible.builtin.file:
-        path: "{{ devture_systemd_docker_base_systemd_path }}/{{ minecraft_identifier }}.service"
+        path: "{{ devture_systemd_docker_base_systemd_path }}/{{
+            minecraft_identifier }}.service"
         state: absent

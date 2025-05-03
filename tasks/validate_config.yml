@@ -4,8 +4,6 @@
 
 ---
 
-# TODO: check which settings are required
-
 - name: Fail if required Minecraft settings not defined
   ansible.builtin.fail:
     msg: >
