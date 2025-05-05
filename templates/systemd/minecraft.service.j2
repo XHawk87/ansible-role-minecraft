@@ -26,6 +26,16 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} run \
     --name={{ minecraft_identifier }} \
     --user={{ minecraft_uid }}:{{ minecraft_gid }} \
     --network={{ minecraft_container_network }} \
+    --cap-drop=ALL \
+    {% for cap in minecraft_security_allow_capabilities %}
+    --cap-add={{ cap }} \
+    {% endfor %}
+    {% if not minecraft_security_write_access %}
+    --read-only \
+    {% endif %}
+    {% if minecraft_security_privileged %}
+    --privileged \
+    {% endif %}
     {% for dns in minecraft_container_dns_servers %}
     --dns={{ dns }} \
     {% endfor %}

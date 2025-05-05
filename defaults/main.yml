@@ -12,11 +12,16 @@ minecraft_enabled: true
 
 minecraft_identifier: minecraft
 
+minecraft_bind_port: 25565
 minecraft_port: 25565
 
-minecraft_uid: '1000'
-minecraft_gid: '1000'
+minecraft_uid: ''
+minecraft_gid: ''
 
+# This is the version of the itzg/minecraft-server image, NOT the Minecraft
+# server version. To set the Minecraft server version, you must set the VERSION
+# environment variable in `minecraft_environment_variables_additional`.
+#
 # renovate: datasource=docker depName=itzg/docker-minecraft-server versioning=semver
 minecraft_docker_version: 2025.4.2
 
@@ -76,7 +81,7 @@ minecraft_container_publish_ports_additional: []
 
 # The default minecraft port
 minecraft_container_publish_ports_default:
-  - "{{ minecraft_port }}:25565"
+  - "{{ minecraft_bind_port }}:{{ minecraft_port }}"
 
 # If any plugins or other services need ports, you can add them here.
 minecraft_container_publish_ports: "{{
@@ -149,3 +154,39 @@ minecraft_systemd_required_services_list_default: "{{
 }}"
 minecraft_systemd_required_services_list_auto: []
 minecraft_systemd_required_services_list_custom: []
+
+# Security settings for the docker container.
+#
+# Changing these settings can introduce security flaws. Please refer to the
+# docker manual before using any of these settings:
+# https://docs.docker.com/engine/containers/run/#runtime-privilege-and-linux-capabilities
+
+# This will need to be set to `insecure` in order to use less secure settings.
+minecraft_security_mode: secure
+
+# This grants the Minecraft server all capabilities and allows it to as much
+# access to the host as if it were run outside of a container. This could be
+# exploited by a malicious mod or plugin to make changes to your server, and
+# potentially gain control over it.
+minecraft_security_privileged: false
+
+# This allows changes to be made to the container's root filesystem. This would
+# allow a malicious mod or plugin to take control over the container, making
+# changes that persist until it is rebuilt.
+minecraft_security_write_access: false
+
+# This allows you to grant specific linux capabilities to the docker container.
+# This is recommended as a more fine-grained approach than using
+# `minecraft_security_privileged`. However it is still important to read and
+# understand what these capabilities could be used for by a malicious mod or
+# plugin. E.g.
+#
+# minecraft_security_allow_capabilities:
+#   - KILL
+#
+# This would allow the container to send kill signals to processes running
+# inside the container.
+#
+# For a full list, see:
+# https://docs.docker.com/engine/containers/run/#runtime-privilege-and-linux-capabilities
+minecraft_security_allow_capabilities: []
