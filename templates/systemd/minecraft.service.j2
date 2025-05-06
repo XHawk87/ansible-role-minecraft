@@ -19,7 +19,7 @@ ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{
     devture_systemd_docker_base_host_command_docker }} rm {{
     minecraft_identifier }} 2>/dev/null || true'
 ExecStartPre={{ devture_systemd_docker_base_host_command_docker 
-    }} pull itzg/minecraft-server:latest
+    }} pull {{ minecraft_container_image }}
 ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} run \
     --detach \
     --rm \
