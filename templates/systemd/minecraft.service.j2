@@ -1,4 +1,4 @@
-#jinja2: lstrip_blocks: "True"
+#jinja2: lstrip_blocks: True
 [Unit]
 Description=Minecraft ({{ minecraft_identifier }}) Server
 {% for service in minecraft_systemd_required_services_list %}
