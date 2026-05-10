@@ -5,6 +5,8 @@ SPDX-FileCopyrightText: 2025 XHawk87
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+## This repository is no longer being maintained. Please see [mother-of-all-self-hosting](https://github.com/mother-of-all-self-hosting/ansible-role-minecraft) for the current active repository.
+
 # Minecraft Ansible role
 
 [![REUSE status](https://api.reuse.software/badge/github.com/XHawk87/ansible-role-minecraft)](https://api.reuse.software/info/github.com/XHawk87/ansible-role-minecraft)
