@@ -1,6 +1,7 @@
 <!--
 SPDX-FileCopyrightText: 2023 Slavi Pantaleev
 SPDX-FileCopyrightText: 2025 XHawk87
+SPDX-FileCopyrightText: 2025, 2026 Suguru Hirahara
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
@@ -19,3 +20,13 @@ This role *implicitly* depends on:
 - [`com.devture.ansible.role.systemd_docker_base`](https://github.com/devture/com.devture.ansible.role.systemd_docker_base)
 
 Check [defaults/main.yml](defaults/main.yml) for the full list of supported options.
+
+## Development
+
+You can optionally install a Git pre-commit hook (via [mise](https://mise.jdx.dev/) + [prek](https://prek.j178.dev/)) that runs formatting and linting checks before each commit. See [`.pre-commit-config.yaml`](./.pre-commit-config.yaml) for which hooks are to be executed.
+
+To install the hook, run the [`just`](https://github.com/casey/just) command below:
+
+```sh
+just prek-install-git-pre-commit-hook
+```
