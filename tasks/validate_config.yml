@@ -13,16 +13,16 @@
       Please change your configuration to rename the variable (`{{ item.old }}` -> `{{ item.new }}`).
   when: "lookup('ansible.builtin.varnames', ('^' + item.old + '$'), wantlist=True) | length > 0"
   with_items:
-    - { "old": "minecraft_container_publish_ports", "new": "<Deleted>" }
-    - { "old": "minecraft_container_publish_ports_default", "new": "<Deleted>" }
-    - { "old": "minecraft_container_publish_ports_additional", "new": "<Deleted>" }
+    - { "old": "minecraft_container_publish_ports", "new": "<Removed>" }
+    - { "old": "minecraft_container_publish_ports_default", "new": "<Removed>" }
+    - { "old": "minecraft_container_publish_ports_additional", "new": "<Removed>" }
     - { "old": "minecraft_container_volumes", "new": "minecraft_container_additional_volumes" }
     - { "old": "minecraft_container_volumes_derived", "new": "minecraft_container_additional_volumes_auto" }
     - { "old": "minecraft_container_volumes_additional", "new": "minecraft_container_additional_volumes_custom" }
     - { "old": "minecraft_environment_variables", "new": "minecraft_environment_variables_additional_variables" }
-    - { "old": "minecraft_environment_variables_default", "new": "minecraft_environment_variables_additional_variables_default" }
-    - { "old": "minecraft_environment_variables_derived", "new": "minecraft_environment_variables_additional_variables_auto" }
-    - { "old": "minecraft_environment_variables_additional", "new": "minecraft_environment_variables_additional_variables_custom" }
+    - { "old": "minecraft_environment_variables_default", "new": "<Removed>" }
+    - { "old": "minecraft_environment_variables_derived", "new": "<Removed>" }
+    - { "old": "minecraft_environment_variables_additional", "new": "<Removed>" }
     - { "old": "minecraft_container_image_force_pull", "new": "<removed> (the new community.docker.docker_image_pull module handles this natively)" }
 
 - name: Fail if required Minecraft settings not defined
