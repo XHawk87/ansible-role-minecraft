@@ -96,6 +96,12 @@ minecraft_systemd_required_services_list_default: "{{ [devture_systemd_docker_ba
 minecraft_systemd_required_services_list_auto: []
 minecraft_systemd_required_services_list_custom: []
 
+# List of systemd services that the Minecraft systemd service wants
+minecraft_systemd_wanted_services_list: "{{ minecraft_systemd_wanted_services_list_default + minecraft_systemd_wanted_services_list_auto + minecraft_systemd_wanted_services_list_custom }}"
+minecraft_systemd_wanted_services_list_default: []
+minecraft_systemd_wanted_services_list_auto: []
+minecraft_systemd_wanted_services_list_custom: []
+
 # Security settings for the docker container.
 #
 # Changing these settings can introduce security flaws. Please refer to the
