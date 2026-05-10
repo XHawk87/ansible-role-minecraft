@@ -8,8 +8,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 # Minecraft Ansible role
 
-[![REUSE status](https://api.reuse.software/badge/github.com/XHawk87/ansible-role-minecraft)](https://api.reuse.software/info/github.com/XHawk87/ansible-role-minecraft)
-
 This is an [Ansible](https://www.ansible.com/) role which installs [Minecraft](https://docker-minecraft-server.readthedocs.io/) to run as a [Docker](https://www.docker.com/) container wrapped in a systemd service.
 
 Note that by running this playbook you implicitly agree to the [Mojang EULA for Minecraft](https://www.minecraft.net/en-us/eula).
