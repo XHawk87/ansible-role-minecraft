@@ -26,6 +26,7 @@
   with_items:
     - env
     - labels
+  register: minecraft_support_files_result
 
 - name: Ensure Minecraft container image is pulled via community.docker.docker_image_pull
   when: devture_systemd_docker_base_container_image_pull_method == 'ansible-module'
@@ -73,3 +74,14 @@
     src: "{{ role_path }}/templates/systemd/minecraft.service.j2"
     dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ minecraft_identifier }}.service"
     mode: "0644"
+  register: minecraft_systemd_service_result
+
+- name: Determine whether Minecraft needs a restart
+  ansible.builtin.set_fact:
+    minecraft_restart_necessary: >-
+      {{
+        minecraft_support_files_result.changed | default(false)
+        or minecraft_systemd_service_result.changed | default(false)
+        or minecraft_container_image_pull_result_ansible_module.changed | default(false)
+        or minecraft_container_image_pull_result_command.changed | default(false)
+      }}
