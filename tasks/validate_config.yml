@@ -19,6 +19,10 @@
     - { "old": "minecraft_container_volumes", "new": "minecraft_container_additional_volumes" }
     - { "old": "minecraft_container_volumes_derived", "new": "minecraft_container_additional_volumes_auto" }
     - { "old": "minecraft_container_volumes_additional", "new": "minecraft_container_additional_volumes_custom" }
+    - { "old": "minecraft_environment_variables", "new": "minecraft_environment_variables_additional_variables" }
+    - { "old": "minecraft_environment_variables_default", "new": "minecraft_environment_variables_additional_variables_default" }
+    - { "old": "minecraft_environment_variables_derived", "new": "minecraft_environment_variables_additional_variables_auto" }
+    - { "old": "minecraft_environment_variables_additional", "new": "minecraft_environment_variables_additional_variables_custom" }
 
 - name: Fail if required Minecraft settings not defined
   ansible.builtin.fail:
