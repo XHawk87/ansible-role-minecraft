@@ -16,6 +16,9 @@
     - { "old": "minecraft_container_publish_ports", "new": "<Deleted>" }
     - { "old": "minecraft_container_publish_ports_default", "new": "<Deleted>" }
     - { "old": "minecraft_container_publish_ports_additional", "new": "<Deleted>" }
+    - { "old": "minecraft_container_volumes", "new": "minecraft_container_additional_volumes" }
+    - { "old": "minecraft_container_volumes_derived", "new": "minecraft_container_additional_volumes_auto" }
+    - { "old": "minecraft_container_volumes_additional", "new": "minecraft_container_additional_volumes_custom" }
 
 - name: Fail if required Minecraft settings not defined
   ansible.builtin.fail:

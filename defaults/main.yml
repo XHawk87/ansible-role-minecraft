@@ -58,10 +58,10 @@ minecraft_container_additional_networks_custom: []
 # if you wish to mount your own files into the container.
 # Contains definition objects like this: `{"type": "bind", "src": "/outside", "dst": "/inside", "options": "readonly"}.
 # See the `--mount` documentation for the `docker run` command.
-minecraft_container_volumes: "{{ minecraft_container_volumes_derived + minecraft_container_volumes_additional }}"
-minecraft_container_volumes_derived:
+minecraft_container_additional_volumes: "{{ minecraft_container_additional_volumes_auto + minecraft_container_additional_volumes_custom }}"
+minecraft_container_additional_volumes_auto:
   - "{{ minecraft_data_path }}:/data"
-minecraft_container_volumes_additional: []
+minecraft_container_additional_volumes_custom: []
 
 # minecraft_container_labels_additional_labels contains a multiline string with additional labels to add to the container label file.
 # See `../templates/labels.j2` for details.
