@@ -1,10 +1,12 @@
 # SPDX-FileCopyrightText: 2023 Slavi Pantaleev
+# SPDX-FileCopyrightText: 2023 Slavi Pantaleev
+# SPDX-FileCopyrightText: 2025, 2026 Suguru Hirahara
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-
 - name: Perform Minecraft installation tasks
+  when: minecraft_enabled | bool
   tags:
     - setup-all
     - setup-minecraft
@@ -12,19 +14,15 @@
     - install-minecraft
   block:
     - name: Validate Minecraft configuration
-      when: minecraft_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/validate_config.yml"
-
     - name: Install Minecraft
-      when: minecraft_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
 
-
 - name: Perform Minecraft uninstallation tasks
+  when: not minecraft_enabled | bool
   tags:
     - setup-all
     - setup-minecraft
   block:
     - name: Uninstall Minecraft
-      when: not minecraft_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/uninstall.yml"
