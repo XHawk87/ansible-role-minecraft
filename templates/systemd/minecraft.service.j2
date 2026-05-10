@@ -25,8 +25,11 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} run \
     --rm \
     --name={{ minecraft_identifier }} \
     --user={{ minecraft_uid }}:{{ minecraft_gid }} \
-    --network={{ minecraft_container_network }} \
     --cap-drop=ALL \
+    --network={{ minecraft_container_network }} \
+    {% if minecraft_container_tcp_host_bind_port %}
+    -p {{ minecraft_container_tcp_host_bind_port }}:{{ minecraft_container_tcp_port }} \
+    {% endif %}
     {% for cap in minecraft_security_allow_capabilities %}
     --cap-add={{ cap }} \
     {% endfor %}
@@ -38,9 +41,6 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} run \
     {% endif %}
     {% for dns in minecraft_container_dns_servers %}
     --dns={{ dns }} \
-    {% endfor %}
-    {% for port_mapping in minecraft_container_publish_ports %}
-    --publish={{ port_mapping }} \
     {% endfor %}
     --interactive \
     {% for volume in minecraft_container_volumes %}
