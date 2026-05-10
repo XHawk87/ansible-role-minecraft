@@ -25,8 +25,8 @@ minecraft_data_path: "{{ minecraft_base_path }}/data"
 # renovate: datasource=docker depName=itzg/docker-minecraft-server versioning=semver
 minecraft_docker_version: 2025.4.2
 
-minecraft_uid: ''
-minecraft_gid: ''
+minecraft_uid: ""
+minecraft_gid: ""
 
 minecraft_container_image: "{{ minecraft_container_image_registry_prefix }}itzg/minecraft-server:{{ minecraft_container_image_tag }}"
 minecraft_container_image_registry_prefix: "{{ minecraft_container_image_registry_prefix_upstream }}"
@@ -73,7 +73,7 @@ minecraft_container_additional_volumes_custom: []
 #   another.label="here"
 #
 # TODO: Add labels for mc-router auto-discovery
-minecraft_container_labels_additional_labels: ''
+minecraft_container_labels_additional_labels: ""
 
 # Specifies how often the container health-check will run.
 #
@@ -174,16 +174,16 @@ minecraft_container_dns_servers: "{{ minecraft_container_dns_servers_default + m
 
 minecraft_container_dns_servers_default:
   # Cloudflare DNS
-  - '1.1.1.1'
-  - '1.0.0.1'
+  - "1.1.1.1"
+  - "1.0.0.1"
 
   # Google DNS
-  - '8.8.8.8'
-  - '8.8.4.4'
+  - "8.8.8.8"
+  - "8.8.4.4"
 
   # dns.quad9.net
-  - '9.9.9.9'
-  - '149.112.112.112'
+  - "9.9.9.9"
+  - "149.112.112.112"
 
 minecraft_container_dns_servers_custom: []
 
